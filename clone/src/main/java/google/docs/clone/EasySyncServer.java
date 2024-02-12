@@ -15,6 +15,8 @@ public class EasySyncServer {
         int bEntitySize = bOperationEntities.size();
         int a_idx = 0;
         int b_idx = 0;
+        int a_local_idx = -1;
+        int b_local_idx = -1;
         int a_entity = 0;
         int b_entity = 0;
         OperationEntity currEntity = null;
@@ -23,6 +25,11 @@ public class EasySyncServer {
             OperationEntity aEntity = aOperationEntities.get(a_entity);
             OperationEntity bEntity = bOperationEntities.get(b_entity);
             if((aEntity instanceof Retention) && (bEntity instanceof Retention)){
+                if(a_local_idx==-1){a_local_idx=a;}
+                if(b_local_idx==-1){b_local_idx=0;}
+
+            }
+            else if((aEntity instanceof Insertion) && (bEntity instanceof Insertion)){
 
             }
         }
