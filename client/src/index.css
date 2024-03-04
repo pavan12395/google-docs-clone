@@ -1,0 +1,37 @@
+body {
+  /* Set minimum height and width for responsiveness */
+  min-height: 100vh;
+  min-width: 100vw;
+  margin: 0; /* Remove default margin */
+
+  /* Display flex for centering */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.text-box-container {
+  /* Container for flexbox layout */
+  display: flex;
+  flex-direction: column; /* Stack vertically */
+  justify-content: flex-end; /* Align content at the bottom */
+  width: 40vw; /* Set minimum width to 40% */
+  min-height: 40vh; /* Set minimum height to 40% */
+  overflow: hidden; /* Prevent scrollbars outside the container */
+}
+
+.text-box {
+  /* Basic styling */
+  display: block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 10px;
+
+  /* Text content styling */
+  font-family: Arial, sans-serif;
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
+  white-space: wrap; /* Text wraps to avoid overflow */
+  word-break: break-word; /* Break words at hyphen or whitespace */
+}
