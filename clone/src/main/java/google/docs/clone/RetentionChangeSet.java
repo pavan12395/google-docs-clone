@@ -1,11 +1,11 @@
 package google.docs.clone;
 
 
-public class Retention {
+public class RetentionChangeSet {
     private int start;
     private int end;
 
-    public Retention(int start, int end) {
+    public RetentionChangeSet(int start, int end) {
         this.start = start;
         this.end = end;
     }

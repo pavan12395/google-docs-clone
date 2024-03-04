@@ -1,17 +1,17 @@
 package google.docs.clone;
 
-public class Insertion implements OperationEntity {
-    private String insertStr;
+public class Insertion implements Element {
+    Character content;
 
-    public Insertion(String insertStr) {
-        this.insertStr = insertStr;
+    public Character getContent() {
+        return content;
     }
 
-    public String getInsertStr() {
-        return insertStr;
+    public void setContent(Character content) {
+        this.content = content;
     }
 
-    public void setInsertStr(String insertStr) {
-        this.insertStr = insertStr;
+    public Insertion(Character content){
+        this.content = content;
     }
 }

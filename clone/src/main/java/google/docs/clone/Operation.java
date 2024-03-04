@@ -10,11 +10,11 @@ public class Operation {
 
     private String source;
 
-    public Operation(int slen, int elen, String source, List<OperationEntity> operationEntities) {
+    public Operation(int slen, int elen, String source, List<ChangeSet> changeSets) {
         this.slen = slen;
         this.elen = elen;
         this.source = source;
-        this.operationEntities = operationEntities;
+        this.changeSets = changeSets;
     }
 
     public String getSource() {
@@ -25,7 +25,7 @@ public class Operation {
         this.source = source;
     }
 
-    private List<OperationEntity> operationEntities;
+    private List<ChangeSet> changeSets;
 
     public int getSlen() {
         return slen;
@@ -43,12 +43,12 @@ public class Operation {
         this.elen = elen;
     }
 
-    public List<OperationEntity> getOperationEntities() {
-        return operationEntities;
+    public List<ChangeSet> getOperationEntities() {
+        return changeSets;
     }
 
-    public void setOperationEntities(List<OperationEntity> operationEntities) {
-        this.operationEntities = operationEntities;
+    public void setOperationEntities(List<ChangeSet> changeSets) {
+        this.changeSets = changeSets;
     }
 
 }
