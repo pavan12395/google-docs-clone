@@ -103,7 +103,7 @@ function pushData(result,temp){
     }
 }
 
-function calFollows(A,B){
+function CalFollows(A,B){
     let iterator1 = new ChangeSetIterator(A.cset);
     let iterator2 = new ChangeSetIterator(B.cset);
     let result = [];
@@ -164,4 +164,4 @@ function iterate(cset){
     }
 }
 
-module.exports = {Merge,CalNet};
+module.exports = {Merge,CalNet,CalFollows};
