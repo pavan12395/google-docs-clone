@@ -94,9 +94,8 @@ function main1(){
     // const S = {slen : 0 , elen : 5,cset : [{type : "I",data : "world"}]};
     // Iterate(B.cset);
     Iterate(A.cset);
-    console.log("*******");
+    console.log("******");
     Iterate(B.cset);
-    console.log(CalFollows(A,B));
 }
 
-main();
+main1();

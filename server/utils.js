@@ -14,64 +14,25 @@ function calLength(cset){
 
 class ChangeSetIterator {
     constructor(cset){
-        console.log("ChangeSet : ",JSON.stringify(cset));
         this.cset = cset;
-        this.localIdx = 0;
-        this.csetIdx = 0;
         this.totalIdx = 0;
-    }
-    updateLocalIdx(){
-        let current = this.cset[this.csetIdx];
-        if(current.type==="I"){
-            this.localIdx = 0;
-        }
-        else if(current.type==="R"){
-            this.localIdx = current.start;
-        }
+        this.csetIdx = 0;
     }
     next(){
         let ans = null;
-        if(!this.hasNext())
-        {
-            return ans;
+        if(!this.hasNext()){return ans;}
+        const current = this.cset[this.csetIdx];
+        if(current.type === 'R'){
+            const nextTotalIdx = this.totalIdx + (current.end - current.start);
+            ans = {...current , sIndex : this.totalIdx , eIndex : nextTotalIdx};
+            this.totalIdx = nextTotalIdx+1;
+            this.csetIdx++;
         }
-        let current = this.cset[this.csetIdx];
-        if(current.type === "I"){
-            ans = {type : "I" , char : current.data.charAt(this.localIdx) , index : this.totalIdx};
-            if(this.localIdx == current.data.length - 1){
-                this.csetIdx = this.csetIdx + 1;
-                if(this.csetIdx < this.cset.length)
-                {
-                    this.updateLocalIdx();
-                    this.totalIdx  = this.totalIdx + 1;
-                }
-            }
-            else {
-                this.localIdx++;
-                this.totalIdx++;
-            }
-        }
-        else if(current.type === "R"){
-             if(this.localIdx > this.totalIdx){
-                ans = {type : "D",index : this.totalIdx};
-                this.totalIdx++;
-                return ans;
-             }
-             else {
-                ans = {type : "R",index : this.totalIdx};
-              if(this.localIdx == current.end){
-                this.csetIdx = this.csetIdx + 1;
-                if(this.csetIdx < this.cset.length){
-                    this.updateLocalIdx();
-                    this.totalIdx = this.totalIdx + 1;
-                }
-              }
-              else {
-                this.localIdx++;
-                this.totalIdx++;
-            }
-             }
-              
+        else if(current.type === 'I'){
+            const nextTotalIdx = this.totalIdx + current.data.length;
+            ans = {... current , sIndex : this.totalIdx , eIndex : nextTotalIdx-1};
+            this.totalIdx = nextTotalIdx;
+            this.csetIdx++;
         }
         return ans;
     }
