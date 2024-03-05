@@ -96,6 +96,7 @@ function App() {
   useEffect(()=>{
      if(sentChanges != null && socket!=null){
       console.log(socket.id);
+      console.log(sentChanges);
         socket.emit("push-changes",{operation : sentChanges , version: originalDocument.version});
      }
   },[sentChanges,socket]);

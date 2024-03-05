@@ -14,6 +14,7 @@ function calLength(cset){
 
 class ChangeSetIterator {
     constructor(cset){
+        console.log("ChangeSet : ",JSON.stringify(cset));
         this.cset = cset;
         this.localIdx = 0;
         this.csetIdx = 0;
@@ -32,8 +33,6 @@ class ChangeSetIterator {
         let ans = null;
         if(!this.hasNext())
         {
-            ans = {type : "D" , totalIndex  : this.totalIdx};
-            this.totalIdx = this.totalIdx + 1;
             return ans;
         }
         let current = this.cset[this.csetIdx];
@@ -53,13 +52,13 @@ class ChangeSetIterator {
             }
         }
         else if(current.type === "R"){
-            // console.log(this.totalIdx + " and "+this.localIdx);
-            if(this.totalIdx  < this.localIdx) {
+             if(this.localIdx > this.totalIdx){
                 ans = {type : "D",index : this.totalIdx};
-                this.totalIdx = this.totalIdx + 1;
-            }
-            else {
-              ans = {type : "R",index : this.totalIdx};
+                this.totalIdx++;
+                return ans;
+             }
+             else {
+                ans = {type : "R",index : this.totalIdx};
               if(this.localIdx == current.end){
                 this.csetIdx = this.csetIdx + 1;
                 if(this.csetIdx < this.cset.length){
@@ -71,7 +70,8 @@ class ChangeSetIterator {
                 this.localIdx++;
                 this.totalIdx++;
             }
-            }
+             }
+              
         }
         return ans;
     }
@@ -107,61 +107,78 @@ function CalFollows(A,B){
     let iterator1 = new ChangeSetIterator(A.cset);
     let iterator2 = new ChangeSetIterator(B.cset);
     let result = [];
+    let length = 0;
     while(iterator1.hasNext() || iterator2.hasNext()){
         let aCSet = iterator1.next();
         let bCSet = iterator2.next();
         if(bCSet.type === "I"){
             pushData(result,{type : "I",data : bCSet.char});
+            length++;
         }
         else if(aCSet.type === "I"){
             pushData(result,{type : "R",start : aCSet.index , end : aCSet.index});
+            length++;
         }
         else if(aCSet.type==="R" && bCSet.type==="R"){
             pushData(result,{type : "R",start : aCSet.index , end : aCSet.index});
+            length++;
         }
     }
     return {
         slen : A.elen,
-        elen : calLength(result),
+        elen : length,
         cset : result
     }
 }
 
 function CalNet(A,B){
+    console.log(JSON.stringify(A) + " and "+JSON.stringify(B));
     let iterator1 = new ChangeSetIterator(A.cset);
     let iterator2 = new ChangeSetIterator(B.cset);
+    let iteratorOneIndexes = {};
     let result = [];
-    while(iterator1.hasNext() || iterator2.hasNext()){
-        let aCSet = iterator1.next();
-        let bCSet = iterator2.next();
-        if(bCSet.type === "I"){
-            pushData(result,{type : "I",data : bCSet.char});
+    while(iterator1.hasNext()){
+        const indexObj = iterator1.next();
+        iteratorOneIndexes[indexObj.index]  = indexObj;
+    }
+    console.log(JSON.stringify(iteratorOneIndexes));
+    let length = 0;
+    while(iterator2.hasNext()){
+        const current = iterator2.next();
+        if(current.type == "D"){continue;}
+        else if(current.type == "I"){
+            pushData(result , {type : "I",data : current.char});
+            length++;
         }
-        else if(aCSet.type === "I" && bCSet.type !== "D"){
-            pushData(result,{type : "I",data : aCSet.char});
-        }
-        else if(aCSet.type==="R" && bCSet.type==="R"){
-            pushData(result,{type : "R",start : aCSet.index , end : aCSet.index});
+        else if(current.type == "R" && iteratorOneIndexes[current.index] !== void 0){
+            const iterator1Obj = iteratorOneIndexes[current.index];
+            console.log(iterator1Obj);
+            if(iterator1Obj.type=="R"){
+                pushData(result , {type : "R",start : current.index , end : current.index});
+                length++;
+            }
+            else if(iterator1Obj.type=="I"){
+                pushData(result,{type : "I",data : iterator1Obj.char});
+                length++;
+            }
         }
     }
-    return {
-        slen : A.slen,
-        elen : B.elen,
-        cset : result
-    }
+    const ans = {slen : A.slen , elen : length , cset : result};
+    console.log("Answer " ,JSON.stringify(ans));
+    return ans;
 }
 
 function Merge(A,B){
-    let followsOperation = calFollows(A,B);
+    let followsOperation = CalFollows(A,B);
     return CalNet(A,followsOperation);
 }
 
 
-function iterate(cset){
+function Iterate(cset){
     let iterator = new ChangeSetIterator(cset);
     while(iterator.hasNext()){
         console.log(iterator.next());
     }
 }
 
-module.exports = {Merge,CalNet,CalFollows};
+module.exports = {Merge,CalNet,CalFollows,Iterate};

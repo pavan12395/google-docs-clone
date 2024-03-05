@@ -1,4 +1,4 @@
-const {Merge,CalNet} = require("./utils");
+const {Merge,CalNet,Iterate,CalFollows} = require("./utils");
 const A = {
     slen : 8,
     elen : 5,
@@ -87,19 +87,16 @@ const Z = {
 }
 
 function main(){
-    let ans = Merge(A,B);
-    ans = CalNet(X,CalNet(A,ans));
-    console.log(ans);
-    let ans1 = Merge(B,A);
-    ans1 = CalNet(X,CalNet(B,ans1));
-    console.log(ans1);
+    console.log(CalNet(A,CalFollows(A,B)));
 }
 
 function main1(){
-    let ans = Merge(Y,Z);
-    // console.log(ans);
-    ans = CalNet(X,CalNet(Y,ans));
-    console.log(ans);
+    // const S = {slen : 0 , elen : 5,cset : [{type : "I",data : "world"}]};
+    // Iterate(B.cset);
+    Iterate(A.cset);
+    console.log("*******");
+    Iterate(B.cset);
+    console.log(CalFollows(A,B));
 }
 
-main1();
+main();
