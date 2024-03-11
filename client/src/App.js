@@ -13,13 +13,11 @@ function App() {
   const handleChange = (event) => {
     event.preventDefault();
     const newOperation = GetChanges(displayDocument,event.target.value);
-    console.log(newOperation);
     if(unsentChanges == null){
       setUnSentChanges(newOperation);
     }
     else {
       const newUnsentChanges = CalNet(unsentChanges,newOperation);
-      console.log("New Operation : ",newOperation , "new Unsent Changes : ",newUnsentChanges);
       setUnSentChanges(newUnsentChanges);
     }
     setDisplayDocument(event.target.value);

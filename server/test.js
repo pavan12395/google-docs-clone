@@ -116,28 +116,8 @@ const Z = {
     ]
 }
 
-// function TestRetentions(){
-//     assert.deepStrictEqual(getRetentionIndexesRange([[1,2,5,6],[4,5,7,8],[8,29,9,10]],[1,28],0,2),[[1,2],[4,5],[8,28]]);
-//     assert.deepStrictEqual(getRetentionIndexesRange([[1,2]],[1,2],0,0),[[1,2]]);
-//     assert.deepStrictEqual(getRetentionIndexesRange([[50,100]],[1,60],0,0),[[50,60]]);
-//     assert.deepStrictEqual(getRetentionIndexesRange([[50,100]],[70,130],0,0),[[70,100]]);
-//     assert.deepStrictEqual(getRetentionIndexesRange([[1,20],[40,60],[70,100],[150,300]],[30,180],0,3),[[40,60],[70,100],[150,180]]);
-// }
-
-// function TestInsertions(){
-//     console.log(getInsertionsIndexesRange([[1,2,"hi"],[5,9,"hello"],[10,14,"world"]],[5,11],0,2));
-// }
-
-// function TestCalFollows(){
-//     console.log(JSON.stringify(CalFollows1(A,B)));
-// }
-
 function main(){
-    // let temp = CalFollows(A,B);
-    // console.log(temp);
-    // console.log(JSON.stringify(CalNet(A,temp)));
     console.log(CalNet(init,insert));
-    // console.log(getIndexesRange(initIndexes,[0,6],0,initIndexes.length-1));
 }
 
 main();
