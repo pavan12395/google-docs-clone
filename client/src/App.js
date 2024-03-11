@@ -33,13 +33,6 @@ function App() {
     };
   },[]);
 
- useEffect(() => {
-  console.log("Original Document:", JSON.stringify(originalDocument, null, 2));
-  console.log("Sent Changes:", JSON.stringify(sentChanges, null, 2));
-  console.log("Unsent Changes:", JSON.stringify(unsentChanges, null, 2));
-  console.log("Display Document:", JSON.stringify(displayDocument, null, 2));
-}, [originalDocument, sentChanges, unsentChanges, displayDocument]);
-
   useEffect(()=>{
     if(socket!=null){
     const ackChangesHandler = (data)=>{
