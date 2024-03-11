@@ -25,7 +25,7 @@ io.on("connection",(socket)=>
 });
 
 function calculateCorrectOperation(operation , version){
-    console.log("Operation : ",JSON.stringify(operation));
+    console.log("Operation : ",JSON.stringify(operation) , "Version : ",version , "Current Version : ",document.version);
     let correctOperation = operation;
     let currentVersion = BigInt(document.version);
     let assumedVersion = BigInt(version);
@@ -42,15 +42,16 @@ function applyOperations(){
         const currentOperation = operationSet[i].operation;
         const currentVersion = operationSet[i].version;
         const correctOperation = calculateCorrectOperation(currentOperation,currentVersion);
+        const newVersion = (BigInt(document.version) + BigInt("1")).toString();
         console.log("Correct Operation  : ",JSON.stringify(correctOperation));
+        const ackChangeResponse = {id : operationSet[i].clientId , changes : correctOperation , version : newVersion};
+        console.log("AckChangeResponse : ",JSON.stringify(ackChangeResponse));
+        io.emit("ack-changes",ackChangeResponse);
         const newDocument = CalNet(document,correctOperation);
-        newDocument.version = (BigInt(document.version) + BigInt("1")).toString();
+        newDocument.version = newVersion;
         document = newDocument;
         revisionLog[newDocument.version] = correctOperation;
-        const ackChangeResponse = {id : operationSet[i].clientId , changes : correctOperation , version : newDocument.version};
-        console.log(JSON.stringify(ackChangeResponse));
         console.log("Document : ",JSON.stringify(document));
-        io.emit("ack-changes",ackChangeResponse);
         operationSet.shift();
     }
 }

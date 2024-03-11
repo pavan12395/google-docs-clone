@@ -1,37 +1,38 @@
 body {
-  /* Set minimum height and width for responsiveness */
   min-height: 100vh;
   min-width: 100vw;
-  margin: 0; /* Remove default margin */
-
-  /* Display flex for centering */
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  background-color: #f5f5f5;
 }
 
 .text-box-container {
-  /* Container for flexbox layout */
   display: flex;
-  flex-direction: column; /* Stack vertically */
-  justify-content: flex-end; /* Align content at the bottom */
-  width: 40vw; /* Set minimum width to 40% */
-  min-height: 40vh; /* Set minimum height to 40% */
-  overflow: hidden; /* Prevent scrollbars outside the container */
+  flex-direction: column;
+  justify-content: flex-start;
+  width: 100vw;
+  height: 100vh;
+  overflow-x: hidden; /* Hide horizontal scrollbar */
+  overflow-y: auto; /* Enable vertical scrollbar */
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 20px;
 }
 
 .text-box {
-  /* Basic styling */
   display: block;
-  border: 1px solid #ccc;
+  border: none;
   border-radius: 4px;
   padding: 10px;
-
-  /* Text content styling */
-  font-family: Arial, sans-serif;
-  font-size: 18px;
-  font-weight: bold;
-  text-align: center;
-  white-space: wrap; /* Text wraps to avoid overflow */
+  font-size: 16px;
+  background-color: #fff;
+  outline: none;
+  resize: none;
+  /* Consider adding more styles for rich text formatting (optional) */
+  white-space: pre-wrap; /* Wrap text at any whitespace, including spaces */
   word-break: break-word; /* Break words at hyphen or whitespace */
+  white-space: pre-wrap; /* Wrap text at any whitespace, including spaces */
+  word-break: break-word; /* Break words at hyphen or whitespace */
+  overflow-wrap: break-word; /* Break words when they reach the container edge */
 }

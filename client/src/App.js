@@ -1,25 +1,30 @@
 import React, { useState , useEffect} from 'react';
 import { CalFollows, CalNet, GetChanges } from './Utils/Utils';
 import io from 'socket.io-client';
+import Document from './Document';
 
 function App() {
   const [originalDocument,setOriginalDocument] = useState(null);
-  console.log(originalDocument);
   const [sentChanges,setSentChanges] = useState(null);
   const [unsentChanges,setUnSentChanges] = useState(null); 
   const [displayDocument,setDisplayDocument] = useState("");
   const [socket,setSocket] = useState(null);
-  console.log(sentChanges , unsentChanges);
+ const [pages, setPages] = useState([]);
   const handleChange = (event) => {
     event.preventDefault();
     const newOperation = GetChanges(displayDocument,event.target.value);
+    console.log(newOperation);
     if(unsentChanges == null){
       setUnSentChanges(newOperation);
     }
     else {
-      setUnSentChanges(CalNet(unsentChanges,newOperation));
+      const newUnsentChanges = CalNet(unsentChanges,newOperation);
+      console.log("New Operation : ",newOperation , "new Unsent Changes : ",newUnsentChanges);
+      setUnSentChanges(newUnsentChanges);
     }
     setDisplayDocument(event.target.value);
+    const newPages = event.target.value.match(/.{1,500}/g);
+    setPages(newPages);
   };
 
   useEffect(()=>{
@@ -40,15 +45,14 @@ function App() {
   useEffect(()=>{
     if(socket!=null){
     const ackChangesHandler = (data)=>{
-      console.log(data);
       if(socket.id == data.id){
          const newOrgDoc = {version : data.version , ...CalNet(originalDocument,sentChanges)};
          setOriginalDocument(newOrgDoc);
          setSentChanges(null);
       }
       else {
+        console.log("OtherSocket : Recieved Changes : ",JSON.stringify(data.changes),JSON.stringify(originalDocument));
         const newOrgDoc = CalNet(originalDocument,data.changes);
-        console.log(newOrgDoc);
         newOrgDoc.version = data.version;
         if(sentChanges == null){
           setOriginalDocument(newOrgDoc);
@@ -73,7 +77,6 @@ function App() {
       }
    };
    const initDocHandler = (data)=>{
-    console.log(data);
      setOriginalDocument(data);
      setDisplayDocument(data.cset[0].data);
    }
@@ -95,23 +98,13 @@ function App() {
 
   useEffect(()=>{
      if(sentChanges != null && socket!=null){
-      console.log(socket.id);
-      console.log(sentChanges);
         socket.emit("push-changes",{operation : sentChanges , version: originalDocument.version});
      }
   },[sentChanges,socket]);
 
   return (
-    <div className="App">
-      <div className="text-box-container">
-        <input
-          className="text-box"
-          type="text"
-          value = {displayDocument}
-          onChange={handleChange}
-          placeholder="Enter your text here"
-        />
-      </div>
+    <div className="text-box-container">
+      <Document displayDocument={displayDocument} handleChange={handleChange} pages={pages}/>
     </div>
   );
 }
