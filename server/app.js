@@ -2,8 +2,6 @@ const { CalFollows, CalNet } = require('./utils');
 
 const io = require('socket.io')(8080)
 
-
-let socketIdsMap = {};
 let operationSet = [];
 let document = {slen : 0,elen : 0 , cset : [{type : "I",data : ""}] ,version : "0"};
 let revisionLog = {0 : document};
@@ -11,7 +9,6 @@ let revisionLog = {0 : document};
 
 io.on("connection",(socket)=>
 {
-    socketIdsMap[socket.id] = socket;
     socket.emit("initDoc",document);
     socket.on("push-changes",(data)=>{
         const currentOperation = {clientId : socket.id , operation : data.operation , version : data.version};

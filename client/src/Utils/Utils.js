@@ -9,7 +9,6 @@ export function GetChanges(oldText,newText){
     else{
         const dmp = new diff_match_patch();
         const diff = dmp.diff_main(oldText,newText);
-        console.log(JSON.stringify(diff));
         let idx = 0;
         for(let i=0;i<diff.length;i++){
             if(diff[i][0] == diff_match_patch.DIFF_EQUAL){
@@ -53,7 +52,8 @@ function pushData(result,temp){
 }
 
 export function CalFollows(A,B){
-    console.log("CalFollows : ",JSON.stringify(A),JSON.stringify(B));
+    if(A==null){return B;}
+    else if(B==null){return A;}
     let resultCset = [];
     let aRetentions = [];
     let Aidx = 0;
@@ -120,7 +120,8 @@ export function CalFollows(A,B){
 }
 
 export function CalNet(A,B){
-    console.log("Called CatNEt : ",JSON.stringify(A),JSON.stringify(B));
+    if(A==null){return B;}
+    else if(B==null){return A;}
     let Aindexes = [];
     let Aidx = 0;
     for(let i=0;i<A.cset.length;i++){
@@ -131,7 +132,6 @@ export function CalNet(A,B){
             Aidx+=length;
         }
         else{
-            console.log("ACSET : ",A.cset[i]);
             Aindexes.push({type : "I" , content : [Aidx , Aidx + String(A.cset[i].data).length-1,A.cset[i].data]});
             Aidx+=(String(A.cset[i].data).length);
         }
@@ -159,7 +159,6 @@ function Merge(A,B){
 
 function getIndexesRange(set,current,s,e){
     let ans = [];
-    console.log("SET : ",set);
     while(s<=e){
         let mid = Math.floor((s+e)/2);
         let resultLeftRange = 0;
@@ -167,7 +166,6 @@ function getIndexesRange(set,current,s,e){
         let resultLeftIndex = 0;
         let resultRightIndex = 0;
         let content = set[mid].content;
-        console.log(content);
         if(set[mid].type === "I"){
             resultLeftIndex = (current[0]-content[0]);
             resultRightIndex = resultLeftIndex + (current[1]-current[0]);

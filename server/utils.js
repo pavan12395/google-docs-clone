@@ -98,7 +98,6 @@ function CalNet(A,B){
             Aidx+=length;
         }
         else{
-            console.log("ACSET : ",A.cset[i]);
             Aindexes.push({type : "I" , content : [Aidx , Aidx + String(A.cset[i].data).length-1,A.cset[i].data]});
             Aidx+=(String(A.cset[i].data).length);
         }
@@ -126,7 +125,6 @@ function Merge(A,B){
 
 function getIndexesRange(set,current,s,e){
     let ans = [];
-    console.log("SET : ",set);
     while(s<=e){
         let mid = Math.floor((s+e)/2);
         let resultLeftRange = 0;
@@ -134,7 +132,6 @@ function getIndexesRange(set,current,s,e){
         let resultLeftIndex = 0;
         let resultRightIndex = 0;
         let content = set[mid].content;
-        console.log(content);
         if(set[mid].type === "I"){
             resultLeftIndex = (current[0]-content[0]);
             resultRightIndex = resultLeftIndex + (current[1]-current[0]);
